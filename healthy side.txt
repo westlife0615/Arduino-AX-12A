@@ -1,0 +1,95 @@
+#include <SoftwareSerial.h>
+#define FLEX0 A0
+#define FLEX1 A1
+#define FLEX2 A2
+#define FLEX3 A3
+#define FLEX4 A4
+
+
+
+// 존나 깜빡이고 검정 테이프 붙인 모듈이 슬레이브
+
+SoftwareSerial mySerial(2, 3); //블루투스의 Tx, Rx핀을 2번 3번핀으로 설정
+
+void setup() {
+  // 시리얼 통신의 속도를 9600으로 설정
+  Serial.begin(9600);
+  while (!Serial) {
+    ; //시리얼통신이 연결되지 않았다면 코드 실행을 멈추고 무한 반복
+    
+  }
+  //블루투스와 아두이노의 통신속도를 9600으로 설정
+  mySerial.begin(9600);
+}
+
+void loop() { //코드를 무한반복합니다.
+
+  int val0 = analogRead(FLEX0);
+  int val1 = analogRead(FLEX1);
+  int val2 = analogRead(FLEX2);
+  int val3 = analogRead(FLEX3);
+  int val4 = analogRead(FLEX4);
+  int limit0 = constrain(val0,70,80);
+  int limit1 = constrain(val1,100,150);
+  int limit2 = constrain(val2,40,80);
+  int limit3 = constrain(val3,70,100);
+  int limit4 = constrain(val4,40,100);
+  int angle0 = map(limit0,70,80,0,1023);
+  int angle1 = map(limit1,100,150,0,1023);
+  int angle2 = map(limit2,40,80,0,1023);
+  int angle3 = map(limit3,70,100,0,1023);
+  int angle4 = map(limit4,40,100,0,1023);
+
+
+
+
+ 
+//Serial.print("angle3: ");
+Serial.println(angle1);
+// Serial.print("angle4: ");
+// Serial.println(angle4);
+
+  if(angle0<=700)
+  mySerial.print('a');
+  else if(angle0>700 && angle0 <=1023)
+  mySerial.print('f');
+
+
+delay(50);
+
+
+  if(angle1<=600)
+  mySerial.print('b');
+  else if(angle1>600 && angle1 <=1023)
+  mySerial.print('g');
+ 
+delay(50);
+
+
+  if(angle2<=800)
+  mySerial.print('c');
+  else if(angle2>800 && angle2 <=1023)
+  mySerial.print('h');
+
+
+ delay(50);
+
+  if(angle3<=900)
+  mySerial.print('d');
+  else if(angle3 >900 && angle3 <=1023)
+  mySerial.print('i');
+ 
+
+delay(50);
+
+  if(angle4<=500)
+  mySerial.print('e');
+  else if(angle4 >500 && angle4 <=1023)
+  mySerial.print('j');
+
+
+delay(50);
+ 
+
+
+}
